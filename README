@@ -31,7 +31,7 @@ Requirements:
   The wget utility (only required for installing Flex and viz SDK).
   Git.
 
-  On debian / ubuntu you can install java and ant like so:
+  On debian / ubuntu you can install java, ant, wget and git like so:
 
     sudo aptitude install openjdk-6-jdk openjdk-6-jre ant wget git-core
 
