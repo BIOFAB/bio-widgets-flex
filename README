@@ -1,0 +1,68 @@
+
+About:
+
+  This is a set of stand-alone bio-relevant flash widgets.
+  The set currently contains:
+
+    1. A plasmid visualization widget.
+    2. A text-based sequence visualization widget.
+
+  This repository contains only a small piece of code that utilizes the 
+  much larger codebases of the DNA Vector Editor and BioFlex projects respectively.
+  
+    https://code.google.com/p/vectoreditor/
+    https://code.google.com/p/bioflex/
+
+  The DNA Vector Editor and BioFlex projects were written by researchers 
+  at the Joint BioEnergy institute:
+
+    http://jbei.org/
+
+  For copyright and licensing information, please refer to the respective information
+  contained in the respective code-bases.
+
+  We are hoping to port these Flex widgets to HTML5 + JavaScript at some point.
+
+Requirements:
+
+  Java SDK and JRE.
+  Ant build tool.
+  Flex 3 SDK and visualization SDK (but the Makefile can install this for you).
+  The wget utility (only required for installing Flex and viz SDK).
+  Git.
+
+  On debian / ubuntu you can install java and ant like so:
+
+    sudo aptitude install openjdk-6-jdk openjdk-6-jre ant wget git-core
+
+  If you already have Flex 3 SDK, edit the first line of the Makefile to point to
+  your Flex 3 SDK dir. 
+
+  If you do not have the Flex 3 SDK installed, install it with:
+
+    sudo make flex-3-install
+
+  If you do not have the Flex 3 visualization SDK installed, install it with:
+
+    sudo make flex-dataviz-install
+
+Compiling:
+
+  Simply use the command:
+
+    make
+
+  The swf files will be saved to the swf directory.
+
+Examples:
+
+  There are HTML/JavaScript examples using the widgets in the examples directory.
+  Some of the functionality will not work if you open these html files directly from your filesystem.
+  To work around this, you can create a symlink to your local web-server's document root, e.g:
+
+    sudo ln -s flash-bio-widgets /var/www/flash-bio-widgets
+
+  And open the examples via your local web server:
+
+    firefox http://localhost/flash-bio-widgets/examples/
+

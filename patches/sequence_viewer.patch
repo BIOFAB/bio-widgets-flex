@@ -1,0 +1,60 @@
+*** vectoreditor/VectorCommon/src/org/jbei/components/sequenceClasses/ContentHolder.as.orig	2011-12-20 15:24:30.289293788 -0800
+--- vectoreditor/VectorCommon/src/org/jbei/components/sequenceClasses/ContentHolder.as	2011-12-20 15:27:56.038314041 -0800
+***************
+*** 16,21 ****
+--- 16,23 ----
+      import flash.ui.ContextMenu;
+      import flash.ui.ContextMenuItem;
+      import flash.ui.Keyboard;
++ 
++     import flash.external.*; // added by Marc Juul
+      
+      import mx.controls.Alert;
+      import mx.core.Application;
+***************
+*** 989,997 ****
+--- 991,1010 ----
+                  selectionLayer.endSelecting();
+                  
+                  dispatchEvent(new SelectionEvent(SelectionEvent.SELECTION_CHANGED, selectionLayer.start, selectionLayer.end));
++ 
++                 // added by Marc Juul
++                 callJavascriptOnSelect(selectionLayer.start, selectionLayer.end);
+              }
+          }
+          
++         // added by Marc Juul
++         private function callJavascriptOnSelect(from_index:int, to_index:int):void {
++           if (ExternalInterface.available) {
++             ExternalInterface.call("on_sequence_viewer_selection", from_index, to_index);
++             // trace("External interface was called.")
++           }
++         } 
++ 
+          private function onMouseDoubleClick(event:MouseEvent):void
+          {
+              if(event.target is FeatureRenderer) {
+***************
+*** 1941,1946 ****
+--- 1954,1962 ----
+  				selectionLayer.startSelecting();
+  				selectionLayer.select(startIndex, endIndex);
+  				selectionLayer.endSelecting();
++ 
++         // added by Marc Juul
++         callJavascriptOnSelect(startIndex, endIndex);
+  			}
+  			
+  			startSelectionIndex = startIndex;
+***************
+*** 1952,1957 ****
+--- 1968,1976 ----
+  	    	startSelectionIndex = -1;
+  	    	endSelectionIndex = -1;
+  	    	selectionLayer.deselect();
++ 
++         // added by Marc Juul
++         callJavascriptOnSelect(-1, -1);
+  	    }
+  		
+  		private function doDeleteSequence(start:int, end:int):void

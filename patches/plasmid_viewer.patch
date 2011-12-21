@@ -1,0 +1,88 @@
+*** vectoreditor/VectorCommon/src/org/jbei/components/pieClasses/ContentHolder.as.orig	2011-12-20 15:24:49.673389914 -0800
+--- vectoreditor/VectorCommon/src/org/jbei/components/pieClasses/ContentHolder.as	2011-12-20 15:27:02.854050318 -0800
+***************
+*** 17,22 ****
+--- 17,24 ----
+      import flash.ui.ContextMenuItem;
+      import flash.ui.Keyboard;
+      import flash.utils.Dictionary;
++ 
++     import flash.external.*; // added by Marc Juul
+      
+      import mx.controls.Alert;
+      import mx.core.EdgeMetrics;
+***************
+*** 821,829 ****
+  		    	dispatchEvent(new SelectionEvent(SelectionEvent.SELECTION_CHANGED, selectionLayer.start, selectionLayer.end));
+  				
+  				wireframeSelectionLayer.hide();
+  	    	}
+  	    }
+! 	    
+          private function onMouseDoubleClick(event:MouseEvent):void
+          {
+          	if(event.target is FeatureRenderer) {
+--- 823,844 ----
+  		    	dispatchEvent(new SelectionEvent(SelectionEvent.SELECTION_CHANGED, selectionLayer.start, selectionLayer.end));
+  				
+  				wireframeSelectionLayer.hide();
++ 
++         // added by Marc Juul 
++         callJavascriptOnSelect(selectionLayer.start, selectionLayer.end)
++ 
+  	    	}
+  	    }
+! 
+!       // added by Marc Juul	    
+!     private function callJavascriptOnSelect(from_index:int, to_index:int):void {
+!       if (ExternalInterface.available) {
+!         ExternalInterface.call("on_plasmid_viewer_selection", from_index, to_index);
+!         trace("External interface was called.")
+!       }
+!     } 
+! 
+! 
+          private function onMouseDoubleClick(event:MouseEvent):void
+          {
+          	if(event.target is FeatureRenderer) {
+***************
+*** 1834,1840 ****
+  				var annotation1:Annotation = labelBox1.relatedAnnotation as Annotation;
+  				
+  				if(annotation1 is Feature) {
+! 					if(labelBox1.labelText == "" || !showFeatures || !showFeatureLabels) { continue; }
+  					
+  					var featureRenderer1:FeatureRenderer = featuresToRendererMap[annotation1] as FeatureRenderer;
+  					
+--- 1849,1855 ----
+  				var annotation1:Annotation = labelBox1.relatedAnnotation as Annotation;
+  				
+  				if(annotation1 is Feature) {
+! 					if((annotation1 as Feature).name == "" || !showFeatures || !showFeatureLabels) { continue; }
+  					
+  					var featureRenderer1:FeatureRenderer = featuresToRendererMap[annotation1] as FeatureRenderer;
+  					
+***************
+*** 2061,2066 ****
+--- 2076,2084 ----
+  			endSelectionIndex = end;
+  			
+  			selectionLayer.select(start, end);
++ 
++       // added by Marc Juul
++       callJavascriptOnSelect(start, end)
+  		}
+  		
+  		private function doDeselect():void
+***************
+*** 2068,2073 ****
+--- 2086,2094 ----
+  			startSelectionIndex = -1;
+  			endSelectionIndex = -1;
+  			selectionLayer.deselect();
++ 
++       // added by Marc Juul
++       callJavascriptOnSelect(-1, -1)
+  		}
+  		
+  		private function doStickySelect(start:int, end:int):void

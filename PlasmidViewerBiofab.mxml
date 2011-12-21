@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+	layout="horizontal" 
+	width="100%" 
+	height="100%" 
+	styleName="plain" 
+	verticalScrollPolicy="off"
+	applicationComplete="applicationCompleteHandler(event)"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:ui="org.jbei.registry.view.ui.*">
+
+  <mx:Script>
+    <![CDATA[
+    import mx.controls.Alert;
+    import com.adobe.serialization.json.JSON;
+    import mx.collections.ArrayCollection;
+    import flash.external.*;
+
+    import org.jbei.lib.*;    
+    import org.jbei.bio.sequence.*;
+
+    import org.jbei.bio.sequence.dna.Feature;
+    import org.jbei.bio.sequence.common.StrandType;
+    import org.jbei.bio.sequence.common.StrandedAnnotation
+
+    [Bindable]
+    protected var _seqProvider:SequenceProvider;
+
+
+    protected function applicationCompleteHandler(event:Event):void {
+
+      var parameters:Object = this.root.loaderInfo.parameters;
+      var json:String = parameters.json as String;
+
+      if(json != null) {
+
+        var data:Object = JSON.decode(json);
+
+        loadSequence(data);
+
+      } else {
+        loadSequence({sequence: "TAGC", features: []});
+      }
+
+      ExternalInterface.addCallback("select", onJavascriptSelectCall);
+
+      ExternalInterface.addCallback("load_sequence", onJavascriptLoadSequence);
+
+      trace("plasmid viewer loaded");
+
+    }
+
+    public function onJavascriptSelectCall(from:int, to:int):void {
+      pie.select(from, to);
+    }
+
+    public function onJavascriptLoadSequence(data:Object):void {
+      if(data == null) {
+        return;
+      }
+      loadSequence(data);
+    }
+
+    public function loadSequence(data:Object):void {
+
+      if(data.features) {
+        var features:ArrayCollection = new ArrayCollection();
+
+        var feature:Feature;
+        var i:int;
+        for(i=0; i < data.features.length; i++) {
+          if(!data.features[i].from || !data.features[i].to || (data.features[i].from < 0) || (data.features[i].to < 0)) {
+            continue;
+          }
+          feature = new Feature(data.features[i].name || 'unnamed feature', data.features[i].from, data.features[i].to, data.features[i].type || 'unknown type');
+          features.addItem(feature);
+        }
+
+      _seqProvider = new SequenceProvider(data.name || "Unnamed plasmid", true, DNATools.createDNA(data.sequence), features);
+      
+      }
+
+      return;
+    }
+
+		]]>
+  </mx:Script>
+        
+
+  <mx:Canvas 
+    width="100%" 
+    height="100%" 
+    xmlns:components="org.jbei.components.*" 
+    xmlns:mx="http://www.adobe.com/2006/mxml" 
+    xmlns:ui="org.jbei.registry.view.ui.*" xmlns:print="org.jbei.registry.view.print.*">
+	
+    <components:Pie id="pie" showFeatures="true" showFeatureLabels="true" showORFs="false" showCutSites="false" width="100%" height="100%" sequenceProvider="{_seqProvider}" visible="true" includeInLayout="true" />
+  </mx:Canvas>
+
+</mx:Application>

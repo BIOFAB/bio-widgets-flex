@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plasmid viewer example</title>
+
+    <style type='text/css'>
+
+      #plasmid_viewer_container {
+        width: 600px;
+        height: 500px;
+        border: 1px solid black;
+        float: left;
+      }
+
+      #sequence_viewer_container {
+        width: 600px;
+        height: 500px;
+        border: 1px solid black;
+        float: left;
+      }
+
+      #opts {
+        float: left;
+        clear: left;
+      }
+
+    </style>
+
+    <script type='text/javascript'>
+
+      var gfp_seq = 'atgcgtaaaggagaagaacttttcactggagttgtcccaattcttgttgaattagatggtgatgttaatgggcacaaattttctgtcagtggagagggtgaaggtgatgcaacatacggaaaacttacccttaaatttatttgcactactggaaaactacctgttccatggccaacacttgtcactactttcggttatggtgttcaatgctttgcgagatacccagatcatatgaaacagcatgactttttcaagagtgccatgcccgaaggttatgtacaggaaagaactatatttttcaaagatgacgggaactacaagacacgtgctgaagtcaagtttgaaggtgatacccttgttaatagaatcgagttaaaaggtattgattttaaagaagatggaaacattcttggacacaaattggaatacaactataactcacacaatgtatacatcatggcagacaaacaaaagaatggaatcaaagttaacttcaaaattagacacaacattgaagatggaagcgttcaactagcagaccattatcaacaaaatactccaattggcgatggccctgtccttttaccagacaaccattacctgtccacacaatctgccctttcgaaagatcccaacgaaaagagagaccacatggtccttcttgagtttgtaacagctgctgggattacacatggcatggatgaactatacaaataataa';
+
+      function load_new_sequence() {
+
+        var seq_obj = {
+          name: 'Another test',
+          sequence: gfp_seq,
+          features: [
+            {name: 'Some feature',
+             type: 'Some type',
+             from: 100,
+             to: 200},
+            {name: 'Another feature',
+             type: 'Another type',
+             from: 220,
+             to: 280}
+          ]
+        }
+
+        document.getElementById('plasmid_viewer').load_sequence(seq_obj);
+        document.getElementById('sequence_viewer').load_sequence(seq_obj);
+      }
+
+      function on_plasmid_viewer_selection(from, to) {
+        sequence_select(from, to);
+        if((from < 0) || (to < 0)) {
+          document.getElementById('output').innerHTML += "empty selection <br />" 
+          return false;
+        }
+        document.getElementById('output').innerHTML += "Selected from " + from + " to " + to + "<br />";
+      }
+
+      function on_sequence_viewer_selection(from, to) {
+        plasmid_select(from, to);
+        if((from < 0) || (to < 0)) {
+          document.getElementById('output').innerHTML += "empty selection <br />" 
+          return false;
+        }
+        document.getElementById('output').innerHTML += "Selected from " + from + " to " + to + "<br />";
+      }
+
+      function plasmid_select(from, to) {
+        document.getElementById('plasmid_viewer').select(from, to);
+      }
+
+      function sequence_select(from, to) {
+        document.getElementById('sequence_viewer').select(from, to);
+      }
+
+      function select(from, to) {
+        plasmid_select(from, to);
+        sequence_select(from, to);
+      }       
+
+
+    </script>
+  </head>
+  <body>
+
+    <div id='plasmid_viewer_container'>
+      <object width="100%" height="100%" type="application/x-shockwave-flash" data="../swf/plasmid_viewer.swf" id="plasmid_viewer" style="visibility: inherit;">
+        
+        <param name='allowfullscreen' value='true' />
+        <param name='allowscriptaccess' value='always' />
+
+        <!-- The initial sequence can be loaded using the flashvars parameter and URL-encoded JSON  -->
+        <!-- This will fail if the JSON is not 100% correct. E.g. remember that hashes are formatted -->
+        <!-- like: {"key": "value"} and _not_ like: {key: "value"} -->
+        <!-- Also note the "json=" at the beginning of the value. This is required. -->
+        <param name='flashvars' value='json=%7B%22name%22%3A%22Test%20plasmid%22%2C%22sequence%22%3A%22GATTATTACCACCATATACATCACTTTTAATATACAGGAGGGGAGATTTACACAAATTTTAAGGGGAGGATAC%22%2C%22features%22%3A%5B%7B%22name%22%3A%22foo%22%2C%22type%22%3A%22restrictionsite%22%2C%22from%22%3A10%2C%22to%22%3A16%7D%2C%7B%22name%22%3A%22J23101%22%2C%22type%22%3A%22promoter%22%2C%22from%22%3A12%2C%22to%22%3A32%7D%5D%7D' />
+
+      </object>
+    </div>
+
+    <div id='sequence_viewer_container'>
+      <object width="100%" height="100%" type="application/x-shockwave-flash" data="../swf/sequence_viewer.swf" id="sequence_viewer" style="visibility: inherit;">
+        
+        <param name='allowfullscreen' value='true' />
+        <param name='allowscriptaccess' value='always' />
+
+        <!-- The initial sequence can be loaded using the flashvars parameter and URL-encoded JSON  -->
+        <!-- This will fail if the JSON is not 100% correct. E.g. remember that hashes are formatted -->
+        <!-- like: {"key": "value"} and _not_ like: {key: "value"} -->
+        <!-- Also note the "json=" at the beginning of the value. This is required. -->
+        <param name='flashvars' value='json=%7B%22name%22%3A%22Test%20plasmid%22%2C%22sequence%22%3A%22GATTATTACCACCATATACATCACTTTTAATATACAGGAGGGGAGATTTACACAAATTTTAAGGGGAGGATAC%22%2C%22features%22%3A%5B%7B%22name%22%3A%22foo%22%2C%22type%22%3A%22restrictionsite%22%2C%22from%22%3A10%2C%22to%22%3A16%7D%2C%7B%22name%22%3A%22J23101%22%2C%22type%22%3A%22promoter%22%2C%22from%22%3A12%2C%22to%22%3A32%7D%5D%7D' />
+
+      </object>
+    </div>
+
+
+    <div id='opts'>
+      <button onclick='select(5, 30)'>Select from 5 to 30.</button>
+      <button onclick='load_new_sequence()'>Load new sequence.</button>
+    
+      <div id='output'>
+      </div>
+    </div>
+
+  </body>
+</html>
