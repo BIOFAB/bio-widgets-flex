@@ -21,7 +21,7 @@ About:
   For copyright and licensing information, please refer to the respective information
   contained in the respective code-bases.
 
-  We are hoping to port these Flex widgets to HTML5 + JavaScript at some point.
+  We are hoping to port these Flex widgets to HTML5 + JavaScript eventually.
 
 Requirements:
 
@@ -60,7 +60,7 @@ Examples:
   Some of the functionality will not work if you open these html files directly from your filesystem.
   To work around this, you can create a symlink to your local web-server's document root, e.g:
 
-    sudo ln -s flash-bio-widgets /var/www/flash-bio-widgets
+    sudo ln -s bio-widgets-flex /var/www/flash-bio-widgets
 
   And open the examples via your local web server:
 
