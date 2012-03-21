@@ -77,6 +77,14 @@
         document.getElementById('sequence_viewer').select(from, to);
       }
 
+      function sequence_viewer_ready() {
+        document.getElementById('output').innerHTML += "sequence viewer flash component loaded<br/>";
+      }
+
+      function plasmid_viewer_ready() {
+        document.getElementById('output').innerHTML += "plasmid viewer flash component loaded<br/>";
+      }
+
       function select(from, to) {
         plasmid_select(from, to);
         sequence_select(from, to);

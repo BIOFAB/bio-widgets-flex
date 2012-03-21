@@ -45,6 +45,10 @@
         document.getElementById('output').innerHTML += "Selected from " + from + " to " + to + "<br />";
       }
 
+      function plasmid_viewer_ready() {
+        document.getElementById('output').innerHTML += "plasmid viewer flash component loaded<br/>";
+      }
+
       function select(from, to) {
         document.getElementById('plasmid_viewer').select(from, to);
       }

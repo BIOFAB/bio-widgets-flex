@@ -46,6 +46,10 @@
 
       ExternalInterface.addCallback("load_sequence", onJavascriptLoadSequence);
 
+      if (ExternalInterface.available) {
+        ExternalInterface.call("sequence_viewer_ready");
+      }
+
       trace("sequence viewer loaded");
 
     }

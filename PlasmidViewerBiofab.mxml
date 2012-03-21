@@ -46,6 +46,10 @@
 
       ExternalInterface.addCallback("load_sequence", onJavascriptLoadSequence);
 
+      if (ExternalInterface.available) {
+        ExternalInterface.call("plasmid_viewer_ready");
+      }
+
       trace("plasmid viewer loaded");
 
     }
