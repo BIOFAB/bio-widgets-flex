@@ -50,6 +50,9 @@
         ExternalInterface.call("plasmid_viewer_ready");
       }
 
+
+      ExternalInterface.call("console.log", "AAAAAAAAAAAAA");
+
       trace("plasmid viewer loaded");
 
     }

@@ -11,13 +11,15 @@ as3corelib:
 	cd as3corelib/build; FLEX_HOME=$(FLEX_PATH) ant; cd -
 
 vectoreditor:
-	git clone https://code.google.com/p/vectoreditor/
+#	git clone https://code.google.com/p/vectoreditor/
+	git clone https://github.com/JBEI/vectoreditor
 	rm -rf vectoreditor/.git
 	patch -p0 -i patches/plasmid_viewer.patch # patch for javascript integration
 	patch -p0 -i patches/sequence_viewer.patch # patch for javascript integration
 
 bioflex:
-	git clone https://code.google.com/p/bioflex/
+#	git clone https://code.google.com/p/bioflex/
+	git clone https://github.com/JBEI/bioflex
 	rm -rf bioflex/.git
 	patch -p0 -i patches/bioflex.patch # patch needed to compile bioflex
 
